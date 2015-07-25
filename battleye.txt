@@ -20,4 +20,4 @@ Line 1 add
 
 scripts.txt
 Search line started with exex and add:
-!="execVM \"IgiLoad\IgiLoad.sqf\"" !="execVM \"IgiLoad\IgiLoad.sqf\""
+!="execVM \"IgiLoad\IgiLoad.sqf\"" !="execVM \"IgiLoad\IgiLoadInit.sqf\""
