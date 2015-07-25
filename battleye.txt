@@ -19,5 +19,5 @@ Line 1 add
 !"usable_ramp" !"can_copilot" !"cargo_offset" !"slots" !"load_offset" !"zload" !"can_outside" !"slots_num" !"default_mass" !="bis_fnc_objectvar_var" !"can_load" !"doors" !"attachedtruck" !"attachedpos" !"box_num" !"can_load" !"zload_cargo"
 
 scripts.txt
-Search line started with exex and add:
+Search line started with "exec" and add:
 !="execVM \"IgiLoad\IgiLoad.sqf\"" !="execVM \"IgiLoad\IgiLoadInit.sqf\""
