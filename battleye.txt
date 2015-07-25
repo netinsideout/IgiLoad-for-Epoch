@@ -1,0 +1,23 @@
+publicvariable.txt
+Line 1 add
+!"IL_"
+ 
+attachto.txt
+Line 1 add
+!"Epoch_Male_F" !"C_Offroad_01_EPOCH" !"C_Quadbike_01_EPOCH" !"C_Hatchback_01_EPOCH" !"C_Hatchback_02_EPOCH" !"C_SUV_01_EPOCH" !"C_Van_01_box_EPOCH" !"C_Van_01_transport_EPOCH" !"B_SDV_01_EPOCH" !"B_MRAP_01_EPOCH" !"B_Truck_01_transport_EPOCH" !"B_Truck_01_covered_EPOCH" !"B_Truck_01_mover_EPOCH" !"B_Truck_01_box_EPOCH" !"O_Truck_02_covered_EPOCH" !"O_Truck_02_transport_EPOCH" !"O_Truck_03_covered_EPOCH" !"O_Truck_02_box_EPOCH" !"ebike_epoch" !"K01" !"K02" !"K03" !"K04" !"C_Rubberboat_EPOCH" !"C_Rubberboat_02_EPOCH" !"C_Rubberboat_03_EPOCH" !"C_Rubberboat_04_EPOCH" !"C_Boat_Civil_01_EPOCH" !"C_Boat_Civil_01_police_EPOCH" !"C_Boat_Civil_01_rescue_EPOCH" !"jetski_epoch" !"B_Heli_Light_01_EPOCH" !"O_Heli_Light_02_unarmed_EPOCH" !"I_Heli_Transport_02_EPOCH" !"I_Heli_light_03_unarmed_EPOCH" !"O_Heli_Transport_04_EPOCH" !"O_Heli_Transport_04_bench_EPOCH" !"O_Heli_Transport_04_box_EPOCH" !"O_Heli_Transport_04_covered_EPOCH" !"B_Heli_Transport_03_unarmed_EPOCH" !"B_Parachute_02_F"
+
+setdamage.txt:
+Line 1 add
+!="Sapper_Charge_Ammo" !="Epoch_Sapper_F"
+
+setpos.txt:
+Change 
+5 "" to 3 ""
+
+setvariable.txt:
+Line 1 add
+!"usable_ramp" !"can_copilot" !"cargo_offset" !"slots" !"load_offset" !"zload" !"can_outside" !"slots_num" !"default_mass" !="bis_fnc_objectvar_var" !"can_load" !"doors" !"attachedtruck" !"attachedpos" !"box_num" !"can_load" !"zload_cargo"
+
+scripts.txt
+Search line started with exex and add:
+!="execVM \"IgiLoad\IgiLoad.sqf\"" !="execVM \"IgiLoad\IgiLoad.sqf\""
