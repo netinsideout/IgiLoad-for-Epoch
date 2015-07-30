@@ -32,6 +32,7 @@ The main task for IgiLoad script is to allow delivery of supplies to units away 
 
 ## Tested with ##
 Arma 3 1.48 with Epoch mod 0.3.0.4  
+Arma 3 1.48 with Epoch mod 0.3.1  
 might work with others versions
 
 ## Media and links ##
