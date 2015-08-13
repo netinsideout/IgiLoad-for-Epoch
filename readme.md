@@ -16,6 +16,8 @@ The main task for IgiLoad script is to allow delivery of supplies to units away 
 - CH-49 Mohawk has a usable ramp.
 - **Epoch class names are already added.**
 - **Parachutes working with Epoch mod.**
+- **Taru can lift up/lift down/attach/deattach pod with rope animation.**
+- **Taru can drop pod with or without parachute.**
 
 ## Installation ##
 
