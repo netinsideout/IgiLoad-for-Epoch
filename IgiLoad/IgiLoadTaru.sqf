@@ -1,3 +1,12 @@
+/*
+This script is based on Xeno Taru mod from NorX Aengell.
+http://www.armaholic.com/page.php?id=27532
+
+Original author: NorX Aengell
+Rewrite and Epoch adaptation: Slayer
+
+*/
+
 IL_Taru_DevMod = false;
 
 //above this altitude dropping with parachute
