@@ -3,7 +3,7 @@
 //	Version info: This is not official version of IgiLoad it is only WIP (RC)								//
 //	Author: Igi_PL																							//
 //	Web: http://www.igipl.net/																				//
-//	Version date: 2014.10.16																				//
+//	Version date: 2015.08.13																			//
 //																											//
 //	USE:																									//
 //	1. In mission "init.sqf" add line: "0 = execVM "IgiLoad\IgiLoadInit.sqf";".								//
@@ -16,6 +16,19 @@
 //																											//
 //	Ways from points 1 and 2 can not be used simultaneously!!!												//
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//	Changelog v1.1 (Arma3_1.48 + Epoch 0.3.1)
+//	New: Taru can lift up/lift down/attach/deattach pod with rope animation.
+//  New: HEMTT can attach/deatach pod.
+//  New: Automatically save positions of pods to database.
+//  New: Taru can drop pod with or without parachute.
+//  New: Sound and chat messages when attaching/deattaching/dropping.
+//  New: New classes for ammo boxes. They are used in vemf missions.
+//
+//	Changelog v1.0 (Arma3_1.48 + Epoch 0.3.1)
+//	New: Epoch class names added
+//	Fix: Epoch pararchute server initialization.
+//	Fix: Open parachute logic moved to server.
 //
 //	Changelog v0.9.10_RC_e_(Arma3_1.32)
 //	Fix: "assignedVehicleRole" do not work with "Cargo" - change to "cargo".
