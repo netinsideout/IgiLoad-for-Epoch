@@ -17,13 +17,13 @@
 //	Ways from points 1 and 2 can not be used simultaneously!!!												//
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-//	Changelog v1.2 (Arma3_1.48 + Epoch 0.3.1)
+//  Changelog v1.2 (Arma3_1.48 + Epoch 0.3.1)
 //  New: Only owner or his teammates can sling load own locked vehicle or pod with heli.
 //  New: Only owner or his teammates can load as cargo own locked vehicle or pod with any supported vehicle.
 //  Note: Fresh spawned vehicles and opened vehicles works with IgiLoad as usual. You can load opened vehicle as cargo //  or sling load with heli.
 //  Fix: Little perfomance boost. All functions executed in one loop.
 //
-//	Changelog v1.1 (Arma3_1.48 + Epoch 0.3.1)
+//  Changelog v1.1 (Arma3_1.48 + Epoch 0.3.1)
 //  New: Taru can lift up/lift down/attach/deattach pod with rope animation.
 //  New: HEMTT can attach/deatach pod.
 //  New: Automatically save positions of pods to database.
