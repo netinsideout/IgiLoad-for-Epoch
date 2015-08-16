@@ -18,6 +18,7 @@ The main task for IgiLoad script is to allow delivery of supplies to units away 
 - **Parachutes working with Epoch mod.**
 - **Taru can lift up/lift down/attach/deattach pod with rope animation.**
 - **Taru can drop pod with or without parachute.**
+- **Owner check functionality. Only owner and his teammates can operate with cargo.**
 
 ## Installation ##
 
