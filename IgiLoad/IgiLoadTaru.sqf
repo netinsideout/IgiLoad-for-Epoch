@@ -19,6 +19,20 @@ IL_Taru_Parachute_Open_Altitude = 120;
 IL_Taru_Disable_Deattaching_Altitude = 3;
 //Not possible to deattach when altitude is extremely low, because new position of pod will be under terrain level.
 //Recommended values are between 3 and 10.
+IL_Verify_Heli =
+{
+    if (IL_Taru_DevMod) then {
+        diag_log "IL_Verify_Heli called";
+    };
+    _helico = vehicle (_this select 0);
+    _helico_Verifier = false;
+    if (_helico isKindOf "Heli_Transport_04_base_F") then {_helico_Verifier = true;};
+    if (IL_Taru_DevMod) then {
+         diag_log format["IL_Verify_Heli returns %1",_helico_Verifier];
+    };
+    _helico_Verifier
+};
+
 if (hasInterface && !isDedicated) then {
     if (IL_Taru_DevMod) then {
          diag_log "Igi Load Taru started";
@@ -26,31 +40,31 @@ if (hasInterface && !isDedicated) then {
 
     IL_Taru_Init =
     {
-		{
-			if (isNil {_x getVariable "IL_Taru_Action_Attach"}) then
-			{
-				_x setVariable ["IL_Taru_Action_Attach",true,false];
+        {
+            if (isNil {_x getVariable "IL_Taru_Action_Attach"}) then
+            {
+                _x setVariable ["IL_Taru_Action_Attach",true,false];
 
-				IL_Taru_Action_Attach = _x addAction ["<img image='IgiLoad\images\load.paa' /><t color=""#007f0e""> Attach the Pod</t>", "[""attach"",_this] call IL_Taru_Do_Action;", nil, 2, false, true, "",
-				"[_this] call IL_Verify_Heli and {[vehicle _this] call IL_Verify_Pod} and {!([vehicle _this] call IL_Verify_Attached_Object)}"];
-			};
+                IL_Taru_Action_Attach = _x addAction ["<img image='IgiLoad\images\load.paa' /><t color=""#007f0e""> Attach the Pod</t>", "[""attach"",_this] call IL_Taru_Do_Action;", nil, 2, false, true, "",
+                "[_this] call IL_Verify_Heli and {[vehicle _this] call IL_Verify_Pod} and {!([vehicle _this] call IL_Verify_Attached_Object)}"];
+            };
 
-			if (isNil {_x getVariable "IL_Taru_Action_Deattach"}) then
-			{
-				_x setVariable ["IL_Taru_Action_Deattach",true,false];
+            if (isNil {_x getVariable "IL_Taru_Action_Deattach"}) then
+            {
+                _x setVariable ["IL_Taru_Action_Deattach",true,false];
 
-				IL_Taru_Action_Deattach = _x addAction ["<img image='IgiLoad\images\unload.paa' /><t color=""#ff0000""> Detach the Pod</t>", "[""deattach"",_this] call IL_Taru_Do_Action;", nil, 2, false, true, "",
-				"[_this] call IL_Verify_Heli and [_this] call IL_Verify_Altitude and {[vehicle _this] call IL_Verify_Attached_Object}"];
-			};
+                IL_Taru_Action_Deattach = _x addAction ["<img image='IgiLoad\images\unload.paa' /><t color=""#ff0000""> Detach the Pod</t>", "[""deattach"",_this] call IL_Taru_Do_Action;", nil, 2, false, true, "",
+                "[_this] call IL_Verify_Heli and [_this] call IL_Verify_Altitude and {[vehicle _this] call IL_Verify_Attached_Object}"];
+            };
 
-			if (isNil {_x getVariable "IL_Taru_Action_Drop"}) then
-			{
-				_x setVariable ["IL_Taru_Action_Drop",true,false];
+            if (isNil {_x getVariable "IL_Taru_Action_Drop"}) then
+            {
+                _x setVariable ["IL_Taru_Action_Drop",true,false];
 
-				IL_Taru_Action_Drop = _x addAction ["<img image='IgiLoad\images\unload_para.paa' /><t color=""#b200ff""> Drop the Pod</t>", "[""drop"",_this] call IL_Taru_Do_Action;", nil, 2, false, true, "",
-				"[_this] call IL_Verify_Heli and {[vehicle _this] call IL_Verify_Attached_Object}"];
-			};
-		} forEach units group player;
+                IL_Taru_Action_Drop = _x addAction ["<img image='IgiLoad\images\unload_para.paa' /><t color=""#b200ff""> Drop the Pod</t>", "[""drop"",_this] call IL_Taru_Do_Action;", nil, 2, false, true, "",
+                "[_this] call IL_Verify_Heli and {[vehicle _this] call IL_Verify_Attached_Object}"];
+            };
+        } forEach units group player;
     };
 
     IL_Verify_Attached_Object =
@@ -83,20 +97,6 @@ if (hasInterface && !isDedicated) then {
              diag_log format["IL_Verify_Pod returns %1",_pod_Verifier];
         };
         _pod_Verifier
-    };
-
-    IL_Verify_Heli =
-    {
-        if (IL_Taru_DevMod) then {
-            diag_log "IL_Verify_Heli called";
-        };
-        _helico = vehicle (_this select 0);
-        _helico_Verifier = false;
-        if (_helico isKindOf "Heli_Transport_04_base_F") then {_helico_Verifier = true;};
-        if (IL_Taru_DevMod) then {
-             diag_log format["IL_Verify_Heli returns %1",_helico_Verifier];
-        };
-        _helico_Verifier
     };
 
     IL_Verify_Altitude = {
@@ -188,55 +188,6 @@ if (hasInterface && !isDedicated) then {
             };
         };
     };
-
-    /*
-    IL_Check_Transport_Fix = {
-        _veh = _this select 0;
-        _cargo = _this select 1;
-        _cargo_pos = getPosATL _cargo;
-        _cargo_dir = getDir _cargo;
-        _veh setSlingLoad _cargo;
-        waitUntil{!isNull (getSlingLoad _veh)};
-        sleep 2;
-        _veh setSlingLoad objNull;
-        _cargo setPosATL _cargo_pos;
-        _cargo setDir _cargo_dir;
-        _cargo enableRopeAttach false;
-    };
-
-    IL_Check_Near_Transport = {
-        private ["_veh", "_transports","_is_owner"];
-        waitUntil {
-            sleep 10;
-            _veh = vehicle player;
-            if (!(_veh isKindOf "Heli_Transport_04_base_F") && !(_veh isKindOf "Heli_Transport_01_base_F") && !(_veh isKindOf "Heli_Transport_02_base_F") && !(_veh isKindOf "Heli_Transport_03_unarmed_base_F")) exitWith {};
-            if (!(isNull (getSlingLoad _veh))) exitWith {};
-            _transports = (getPosATL _veh) nearEntities [["LandVehicle","Ship"], 20];
-            {
-                if (_veh canSlingLoad _x) then {
-                    _x enableSimulation true;
-                    _is_owner = [_x, player] call EPOCH_checkVehicleAccess;
-                    if (_is_owner) then {
-                        _x enableRopeAttach true;
-                        //hint "Rope Attach Enabled";
-                    } else {
-                        _x enableRopeAttach false;
-                        if(ropeAttachEnabled _x) then{
-                            [_veh,_x] spawn IL_Check_Transport_Fix;
-                        };
-                        hint "Rope attach is disabled";
-                    };
-                };
-            } forEach _transports;
-        };
-    };
-    */
-/*
-    waitUntil {!isNull player};
-    [] spawn IL_Taru_Init;
-    [] spawn IL_Check_Near_Transport;
-    IL_Taru_EH_Respawn = player addEventHandler ["Respawn", "[] spawn IL_Taru_Init;"];
-    IL_Check_Near_Transport_EH_Respawn = player addEventHandler ["Respawn", "[] spawn IL_Check_Near_Transport;"];*/
 };
 
 IL_Pod_Manager = {

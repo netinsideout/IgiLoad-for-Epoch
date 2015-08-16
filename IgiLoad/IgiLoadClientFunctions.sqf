@@ -8,6 +8,7 @@ if (isnil "IL_Functions") then
         _cargo = _this select 1;
         _cargo_pos = getPosATL _cargo;
         _cargo_dir = getDir _cargo;
+        _cargo allowDamage false;
         _veh setSlingLoad _cargo;
         waitUntil{!isNull (getSlingLoad _veh)};
         sleep 2;
@@ -15,6 +16,7 @@ if (isnil "IL_Functions") then
         _cargo setPosATL _cargo_pos;
         _cargo setDir _cargo_dir;
         _cargo enableRopeAttach false;
+        _cargo allowDamage true;
     };
 
     IL_Heli_Check_Near_Transport = {
