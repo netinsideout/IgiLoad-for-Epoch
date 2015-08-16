@@ -42,8 +42,8 @@ if (isnil "IL_Variables") then
 	IL_Variables = true;
 
 	//Check new vehicles time
-	IL_Check_Veh_Min = 30;
-	IL_Check_Veh_Max = 60;
+	IL_Check_Veh_Min = 20;
+	IL_Check_Veh_Max = 50;
 		
 	//Dealing with cargo damage
 	//-1 - do nothing
@@ -383,6 +383,7 @@ if (isnil "IL_Procedures") then
 	};
 //	END IL_Init_Veh
 
+    //client function
 	IL_Init_Box =
 	{
 		if (IL_DevMod) then
@@ -531,7 +532,8 @@ if (isnil "IL_Procedures") then
 		};
 	};
 //	END IL_Init_Box
-	
+
+	//server function
 	IL_Server_AddScore =
 	{
 		if (IL_DevMod) then
@@ -549,6 +551,7 @@ if (isnil "IL_Procedures") then
 
 //	END publicVariable "IL_SetScore";
 
+    //common function
 	IL_Score = 
 	{
 		private ["_obj", "_score"];
@@ -570,7 +573,8 @@ if (isnil "IL_Procedures") then
 		};
 	};
 //	END IL_Score
-	
+
+	//server function
 	IL_Server_SetDir =
 	{
 		if (IL_DevMod) then
@@ -597,7 +601,8 @@ if (isnil "IL_Procedures") then
 
 	"IL_SetDir" addPublicVariableEventHandler IL_Server_SetDir;
 //	END publicVariable "IL_SetDir";
-		
+
+	//common function
 	IL_Rotate = 
 	{
 		private ["_obj", "_to", "_change"];
@@ -626,7 +631,8 @@ if (isnil "IL_Procedures") then
 		};
 	};
 //	END IL_Rotate
-	
+
+	//server function
 	IL_Server_SetMass =
 	{
 		if (IL_DevMod) then
@@ -645,7 +651,8 @@ if (isnil "IL_Procedures") then
 	
 	"IL_SetMass" addPublicVariableEventHandler IL_Server_SetMass;
 //	END publicVariable "IL_SetMass";
-	
+
+	//client function
 	IL_GetCargoMass =
 	{
 		private ["_v", "_cargo_mass"];
@@ -661,6 +668,7 @@ if (isnil "IL_Procedures") then
 	};
 //	END IL_GetCargoMass
 
+    //client function
 	IL_GetDefaultMass =
 	{
 		private ["_v"];
@@ -669,6 +677,7 @@ if (isnil "IL_Procedures") then
 	};
 //	END IL_GetDefaultMass
 
+    //client function
 	IL_SetNewMass =
 	{
 		if (IL_DevMod) then
@@ -713,7 +722,8 @@ if (isnil "IL_Procedures") then
 //		_v setMass (_v_def_mass + _cargo_mass);
 	};
 //	END IL_SetNewMass
-	
+
+	//client function
 	IL_Vehicle_Chat =
 	{
 		private["_v", "_msg", "_mass_info", "_text", "_cargo_mass", "_v_def_mass"];
@@ -761,7 +771,8 @@ if (isnil "IL_Procedures") then
 		};
 	};
 //	END IL_Vehicle_Chat
-	
+
+	//client function
 	IL_Move_Attach=
 	{
 		private ["_veh", "_obj", "_from", "_to", "_pos", "_step", "_steps", "_from_x", "_from_y", "_from_z", "_to_x", "_to_y", "_to_z", "_x", "_y", "_z", "_i", "_x_step", "_y_step", "_z_step", "_turn"];
@@ -851,6 +862,7 @@ if (isnil "IL_Procedures") then
 	};
 //	END IL_Move_Attach
 
+    //server function
 	IL_Create_And_Attach =
 	{
 		if (IL_DevMod) then
@@ -869,6 +881,7 @@ if (isnil "IL_Procedures") then
 	};
 //	END IL_Create_And_Attach
 
+    //server function
 	IL_Server_Cargo_Para =
 	{
 		if (IL_DevMod) then
@@ -991,6 +1004,7 @@ if (isnil "IL_Procedures") then
 	};
 //	END IL_Cargo_Para
 
+    //common function
     IL_Cargo_Para = {
         IL_CLient_Cargo_Para = _this;
         if (isServer) then
@@ -1006,6 +1020,7 @@ if (isnil "IL_Procedures") then
     };
     "IL_Client_Cargo_Para" addPublicVariableEventHandler IL_Cargo_Para;
 
+    //client function
 	IL_Do_Load =
 	{
 		if (IL_DevMod) then
@@ -1013,7 +1028,7 @@ if (isnil "IL_Procedures") then
 			Player globalChat Format ["IgiLoad ""%1"" in IL_Do_Load", IL_Script_Inst];
 		};
 
-		private["_NoBoxHint", "_v", "_supported_cargo", "_zload", "_x_cargo_offset", "_cargo_offset", "_sdist", "_spoint", "_slot_num", "_counter", "_done", "_obj_lst", "_damage", "_obj_type", "_doors", "_box_num", "_dummy", "_nic", "_turn", "_force", "_cargo"];
+		private["_is_owner","_NoBoxHint", "_v", "_supported_cargo", "_zload", "_x_cargo_offset", "_cargo_offset", "_sdist", "_spoint", "_slot_num", "_counter", "_done", "_obj_lst", "_damage", "_obj_type", "_doors", "_box_num", "_dummy", "_nic", "_turn", "_force", "_cargo"];
 		_NoBoxHint = "The box is in the vicinity. Perhaps it is outside of the loading area.";
 		_v = _this select 0;
 		_supported_cargo = _this select 1;
@@ -1180,166 +1195,176 @@ if (isnil "IL_Procedures") then
 				{
 					_turn = true;
 				};
-				//It allows you to load oversize loads, but they must be on the list of supported cargo!!!
-				if ((abs(_slot_num - _box_num) < (_x getVariable "slots")) && (_box_num != 0)) then
-				{
-					[_v, "This cargo is to big. "] call IL_Vehicle_Chat;
-				}
-				else
-				{
-					if (IL_DevMod) then
-					{
-						Player globalChat Format ["IgiLoad ""%1"". _box_num: ""%2"" _slot_num: ""%3""", IL_Script_Inst,  _box_num, _slot_num];
-					};
-					if (_obj_type in IL_Supported_Vehicles_MH9) then
-					{
-						_turn = !_turn;
-					};
-					if ((_box_num > _slot_num) && !_done) then
-					{
-						[_v, Format ["Loading ""%1"" on ""%2"" started", getText(configFile >> "cfgVehicles" >> typeOf _x >> "displayName"), getText(configFile >> "cfgVehicles" >> typeOf _v >> "displayName")]] call IL_Vehicle_Chat;
-						_done = true;
-						_counter = (_box_num);
-						_zload = (_v getVariable "zload") + (_x getVariable "zload_cargo");
-						_cargo_offset = (_v getVariable "load_offset") + (_x getVariable "cargo_offset");
-						if ((typeOf _x) in IL_Supported_UGV) then
-						{
-							_x_cargo_offset = -0.4;
-						}
-						else
-						{
-							_x_cargo_offset = 0;
-						};
-						_damage = getDammage _x;
-						
-						if ((typeOf _x) in IL_Supported_SDV) then
-						{
-							_x animate ["periscope", 3]; 
-							_x animate ["Antenna", 3]; 
-							_x animate ["HideScope", 3]; 
-							_x animate["display_on_R", 1];
-							//animationPhase
-							[_v, "Waiting for periscope."] call IL_Vehicle_Chat;
-							while {_x animationPhase "periscope" < 3} do
-							{
-								sleep 1;
-							};
-						};
+				_is_owner = false;
+				if ((_x isKindOf "LandVehicle") || (_x isKindOf "Air") || (_x isKindOf "Ship")) then {
+				    _is_owner = [_x, player] call EPOCH_checkVehicleAccess;
+				} else {
+				    _is_owner = true;
+				};
+				if (!_is_owner) then {
+				    [_v, "You are not owner of cargo or cargo is closed."] call IL_Vehicle_Chat;
+				} else {
+				    //It allows you to load oversize loads, but they must be on the list of supported cargo!!!
+                    if ((abs(_slot_num - _box_num) < (_x getVariable "slots")) && (_box_num != 0)) then
+                    {
+                        [_v, "This cargo is to big. "] call IL_Vehicle_Chat;
+                    }
+                    else
+                    {
+                        if (IL_DevMod) then
+                        {
+                            Player globalChat Format ["IgiLoad ""%1"". _box_num: ""%2"" _slot_num: ""%3""", IL_Script_Inst,  _box_num, _slot_num];
+                        };
+                        if (_obj_type in IL_Supported_Vehicles_MH9) then
+                        {
+                            _turn = !_turn;
+                        };
+                        if ((_box_num > _slot_num) && !_done) then
+                        {
+                            [_v, Format ["Loading ""%1"" on ""%2"" started", getText(configFile >> "cfgVehicles" >> typeOf _x >> "displayName"), getText(configFile >> "cfgVehicles" >> typeOf _v >> "displayName")]] call IL_Vehicle_Chat;
+                            _done = true;
+                            _counter = (_box_num);
+                            _zload = (_v getVariable "zload") + (_x getVariable "zload_cargo");
+                            _cargo_offset = (_v getVariable "load_offset") + (_x getVariable "cargo_offset");
+                            if ((typeOf _x) in IL_Supported_UGV) then
+                            {
+                                _x_cargo_offset = -0.4;
+                            }
+                            else
+                            {
+                                _x_cargo_offset = 0;
+                            };
+                            _damage = getDammage _x;
 
-						if ((_obj_type in IL_Supported_Vehicles_VAN) && (_doors == "B")) then
-						{
-							[_v, _x, [_x_cargo_offset,-4.5,_zload], [_x_cargo_offset,_counter + 0.25 - _cargo_offset,_zload], 1, _turn] call IL_Move_Attach;
-						};
-						if ((_obj_type in IL_Supported_Vehicles_OFFROAD) && (_doors == "B")) then
-						{
-							[_v, _x, [_x_cargo_offset,-4.5,_zload], [_x_cargo_offset,_counter + 0.25 - _cargo_offset,_zload], 1, _turn] call IL_Move_Attach;
-						};
-						if ((_obj_type in IL_Supported_Vehicles_KAMAZ) && (_doors == "B")) then
-						{
-							[_v, _x, [_x_cargo_offset,-6 - _cargo_offset,_zload], [_x_cargo_offset,_counter + 0.25 - _cargo_offset,_zload], 1, _turn] call IL_Move_Attach;
-						};
-						if ((_obj_type in IL_Supported_Vehicles_HEMTT) && (_doors == "B")) then
-						{
-							[_v, _x, [_x_cargo_offset,-7 - _cargo_offset,_zload], [_x_cargo_offset,_counter + 0.25 - _cargo_offset,_zload], 1, _turn] call IL_Move_Attach;
-						};
-						if ((_obj_type in IL_Supported_Vehicles_TEMPEST) && (_doors == "B")) then
-						{
-							[_v, _x, [_x_cargo_offset,-6.5 - _cargo_offset,_zload], [_x_cargo_offset,_counter - _cargo_offset,_zload], 1, _turn] call IL_Move_Attach;
-						};
-						if ((_obj_type in IL_Supported_Vehicles_C130J)  && (_doors == "B")) then
-						{
-							[_v, _x, [_x_cargo_offset,-9,-0.93 + _zload], [_x_cargo_offset,-8,-0.93 + _zload], 1, _turn] call IL_Move_Attach;
-							[_v, _x, [_x_cargo_offset,-7,-0.93 + _zload], [_x_cargo_offset,-3.5,_zload], 1, _turn] call IL_Move_Attach;
-							[_v, _x, [_x_cargo_offset,-2.5,_zload], [_x_cargo_offset,_counter + 17 - _cargo_offset,_zload], 1, _turn] call IL_Move_Attach;
-						};
-						if ((_obj_type in IL_Supported_Vehicles_C17)  && (_doors == "B")) then
-						{
-							[_v, _x, [_x_cargo_offset,-16.5,-1.75 + _zload], [_x_cargo_offset,-14,-1.75 + _zload], 1, _turn] call IL_Move_Attach;
-							[_v, _x, [_x_cargo_offset,-13,-1.75 + _zload], [_x_cargo_offset,-6.5,_zload], 1, _turn] call IL_Move_Attach;
-							[_v, _x, [_x_cargo_offset,-5.5,_zload], [_x_cargo_offset,_counter + 32 - _cargo_offset,_zload], 1, _turn] call IL_Move_Attach;
-						};
-						if ((_obj_type in IL_Supported_Vehicles_CHINOOK)  && (_doors == "B")) then
-						{
-							[_v, _x, [_x_cargo_offset,-9,-0.75 + _zload], [_x_cargo_offset,-7,-0.75 + _zload], 1, _turn] call IL_Move_Attach;
-							[_v, _x, [_x_cargo_offset,-7,-0.75 + _zload], [_x_cargo_offset,-4,_zload], 1, _turn] call IL_Move_Attach;
-							[_v, _x, [_x_cargo_offset,-4,_zload], [_x_cargo_offset,_counter + 9 - _cargo_offset,_zload], 1, _turn] call IL_Move_Attach;
-						};
-						if ((_obj_type in IL_Supported_Vehicles_MOHAWK)  && (_doors == "B")) then
-						{
-							[_v, _x, [_x_cargo_offset,-6,-0.75 + _zload], [_x_cargo_offset,-4.5,-0.75 + _zload], 1, _turn] call IL_Move_Attach;
-							[_v, _x, [_x_cargo_offset,-4.5,-0.75 + _zload], [_x_cargo_offset,-1.5,_zload], 1, _turn] call IL_Move_Attach;
-							[_v, _x, [_x_cargo_offset,-1.5,_zload], [_x_cargo_offset,_counter + 9 - _cargo_offset,_zload], 1, _turn] call IL_Move_Attach;
-						};
-						if ((_obj_type in IL_Supported_Vehicles_MH9)  && (_doors == "L")) then
-						{
-							[_v, _x, [_x_cargo_offset-3,1.3,-1.3 + _zload], [_x_cargo_offset-1,-0.2,_zload], 1, _turn] call IL_Move_Attach;
-						};
-						if ((_obj_type in IL_Supported_Vehicles_MH9)  && (_doors == "R")) then
-						{
-							[_v, _x, [_x_cargo_offset+3,1.3,-1.3 + _zload], [_x_cargo_offset+1,-0.2,_zload], 1, _turn] call IL_Move_Attach;
-						};
+                            if ((typeOf _x) in IL_Supported_SDV) then
+                            {
+                                _x animate ["periscope", 3];
+                                _x animate ["Antenna", 3];
+                                _x animate ["HideScope", 3];
+                                _x animate["display_on_R", 1];
+                                //animationPhase
+                                [_v, "Waiting for periscope."] call IL_Vehicle_Chat;
+                                while {_x animationPhase "periscope" < 3} do
+                                {
+                                    sleep 1;
+                                };
+                            };
 
-						_counter = _counter - (_x getVariable "slots");
+                            if ((_obj_type in IL_Supported_Vehicles_VAN) && (_doors == "B")) then
+                            {
+                                [_v, _x, [_x_cargo_offset,-4.5,_zload], [_x_cargo_offset,_counter + 0.25 - _cargo_offset,_zload], 1, _turn] call IL_Move_Attach;
+                            };
+                            if ((_obj_type in IL_Supported_Vehicles_OFFROAD) && (_doors == "B")) then
+                            {
+                                [_v, _x, [_x_cargo_offset,-4.5,_zload], [_x_cargo_offset,_counter + 0.25 - _cargo_offset,_zload], 1, _turn] call IL_Move_Attach;
+                            };
+                            if ((_obj_type in IL_Supported_Vehicles_KAMAZ) && (_doors == "B")) then
+                            {
+                                [_v, _x, [_x_cargo_offset,-6 - _cargo_offset,_zload], [_x_cargo_offset,_counter + 0.25 - _cargo_offset,_zload], 1, _turn] call IL_Move_Attach;
+                            };
+                            if ((_obj_type in IL_Supported_Vehicles_HEMTT) && (_doors == "B")) then
+                            {
+                                [_v, _x, [_x_cargo_offset,-7 - _cargo_offset,_zload], [_x_cargo_offset,_counter + 0.25 - _cargo_offset,_zload], 1, _turn] call IL_Move_Attach;
+                            };
+                            if ((_obj_type in IL_Supported_Vehicles_TEMPEST) && (_doors == "B")) then
+                            {
+                                [_v, _x, [_x_cargo_offset,-6.5 - _cargo_offset,_zload], [_x_cargo_offset,_counter - _cargo_offset,_zload], 1, _turn] call IL_Move_Attach;
+                            };
+                            if ((_obj_type in IL_Supported_Vehicles_C130J)  && (_doors == "B")) then
+                            {
+                                [_v, _x, [_x_cargo_offset,-9,-0.93 + _zload], [_x_cargo_offset,-8,-0.93 + _zload], 1, _turn] call IL_Move_Attach;
+                                [_v, _x, [_x_cargo_offset,-7,-0.93 + _zload], [_x_cargo_offset,-3.5,_zload], 1, _turn] call IL_Move_Attach;
+                                [_v, _x, [_x_cargo_offset,-2.5,_zload], [_x_cargo_offset,_counter + 17 - _cargo_offset,_zload], 1, _turn] call IL_Move_Attach;
+                            };
+                            if ((_obj_type in IL_Supported_Vehicles_C17)  && (_doors == "B")) then
+                            {
+                                [_v, _x, [_x_cargo_offset,-16.5,-1.75 + _zload], [_x_cargo_offset,-14,-1.75 + _zload], 1, _turn] call IL_Move_Attach;
+                                [_v, _x, [_x_cargo_offset,-13,-1.75 + _zload], [_x_cargo_offset,-6.5,_zload], 1, _turn] call IL_Move_Attach;
+                                [_v, _x, [_x_cargo_offset,-5.5,_zload], [_x_cargo_offset,_counter + 32 - _cargo_offset,_zload], 1, _turn] call IL_Move_Attach;
+                            };
+                            if ((_obj_type in IL_Supported_Vehicles_CHINOOK)  && (_doors == "B")) then
+                            {
+                                [_v, _x, [_x_cargo_offset,-9,-0.75 + _zload], [_x_cargo_offset,-7,-0.75 + _zload], 1, _turn] call IL_Move_Attach;
+                                [_v, _x, [_x_cargo_offset,-7,-0.75 + _zload], [_x_cargo_offset,-4,_zload], 1, _turn] call IL_Move_Attach;
+                                [_v, _x, [_x_cargo_offset,-4,_zload], [_x_cargo_offset,_counter + 9 - _cargo_offset,_zload], 1, _turn] call IL_Move_Attach;
+                            };
+                            if ((_obj_type in IL_Supported_Vehicles_MOHAWK)  && (_doors == "B")) then
+                            {
+                                [_v, _x, [_x_cargo_offset,-6,-0.75 + _zload], [_x_cargo_offset,-4.5,-0.75 + _zload], 1, _turn] call IL_Move_Attach;
+                                [_v, _x, [_x_cargo_offset,-4.5,-0.75 + _zload], [_x_cargo_offset,-1.5,_zload], 1, _turn] call IL_Move_Attach;
+                                [_v, _x, [_x_cargo_offset,-1.5,_zload], [_x_cargo_offset,_counter + 9 - _cargo_offset,_zload], 1, _turn] call IL_Move_Attach;
+                            };
+                            if ((_obj_type in IL_Supported_Vehicles_MH9)  && (_doors == "L")) then
+                            {
+                                [_v, _x, [_x_cargo_offset-3,1.3,-1.3 + _zload], [_x_cargo_offset-1,-0.2,_zload], 1, _turn] call IL_Move_Attach;
+                            };
+                            if ((_obj_type in IL_Supported_Vehicles_MH9)  && (_doors == "R")) then
+                            {
+                                [_v, _x, [_x_cargo_offset+3,1.3,-1.3 + _zload], [_x_cargo_offset+1,-0.2,_zload], 1, _turn] call IL_Move_Attach;
+                            };
 
-						if (_doors == "B") then
-						{
-							_v setVariable["box_num", _counter, true];
-						};
-						if ((_obj_type in IL_Supported_Vehicles_MH9)  && (_doors == "L")) then
-						{
-							_v setVariable["box_num_l", _counter, true];
-							_v setVariable["box_l", _x, true];
-						};
-						if ((_obj_type in IL_Supported_Vehicles_MH9)  && (_doors == "R")) then
-						{
-							_v setVariable["box_num_r", _counter, true];
-							_v setVariable["box_r", _x, true];
-						};
-						
-						[_v] call IL_SetNewMass;
-						
-						if (_x isKindOf "AllVehicles") then
-						{
-							_x forceSpeed 0;
-						};
-						
-						_x setVariable["attachedPos", _counter, true];
-						_x setVariable["attachedTruck", _v, true];
-						_x setVariable["doors", _doors, true];
-						
-						if (IL_CDamage == 0) then
-						{
-							_x setDamage 0;
-						};
-						
-						if (IL_CDamage == 1) then
-						{
-							_x setDamage _damage;
-							if (_damage != (getDammage _x)) then
-							{
-								sleep 1;
-								_x setDamage _damage;
-							};
-						};
-						
-						if (_counter > _slot_num) then
-						{
-							[_v, Format ["""%1"" is loaded onto ""%2"". Free slots: ""%3"".", getText(configFile >> "cfgVehicles" >> typeOf _x >> "displayName"), getText(configFile >> "cfgVehicles" >> typeOf _v >> "displayName"), abs(_slot_num - _counter)], true] call IL_Vehicle_Chat;
-						}
-						else
-						{
-							[_v, Format ["""%1"" is loaded onto ""%2"" There is no more space.", getText(configFile >> "cfgVehicles" >> typeOf _x >> "displayName"), getText(configFile >> "cfgVehicles" >> typeOf _v >> "displayName")], true] call IL_Vehicle_Chat;
-						};
-						//player addScore IL_Load_Score;
-						[Player, IL_Load_Score] call IL_Score;
-					}
-					else
-					{
-						if ((_box_num > _slot_num) && !_done) then
-						{
-							[_v, _NoBoxHint] call IL_Vehicle_Chat;
-						};
-					};
+                            _counter = _counter - (_x getVariable "slots");
+
+                            if (_doors == "B") then
+                            {
+                                _v setVariable["box_num", _counter, true];
+                            };
+                            if ((_obj_type in IL_Supported_Vehicles_MH9)  && (_doors == "L")) then
+                            {
+                                _v setVariable["box_num_l", _counter, true];
+                                _v setVariable["box_l", _x, true];
+                            };
+                            if ((_obj_type in IL_Supported_Vehicles_MH9)  && (_doors == "R")) then
+                            {
+                                _v setVariable["box_num_r", _counter, true];
+                                _v setVariable["box_r", _x, true];
+                            };
+
+                            [_v] call IL_SetNewMass;
+
+                            if (_x isKindOf "AllVehicles") then
+                            {
+                                _x forceSpeed 0;
+                            };
+
+                            _x setVariable["attachedPos", _counter, true];
+                            _x setVariable["attachedTruck", _v, true];
+                            _x setVariable["doors", _doors, true];
+
+                            if (IL_CDamage == 0) then
+                            {
+                                _x setDamage 0;
+                            };
+
+                            if (IL_CDamage == 1) then
+                            {
+                                _x setDamage _damage;
+                                if (_damage != (getDammage _x)) then
+                                {
+                                    sleep 1;
+                                    _x setDamage _damage;
+                                };
+                            };
+
+                            if (_counter > _slot_num) then
+                            {
+                                [_v, Format ["""%1"" is loaded onto ""%2"". Free slots: ""%3"".", getText(configFile >> "cfgVehicles" >> typeOf _x >> "displayName"), getText(configFile >> "cfgVehicles" >> typeOf _v >> "displayName"), abs(_slot_num - _counter)], true] call IL_Vehicle_Chat;
+                            }
+                            else
+                            {
+                                [_v, Format ["""%1"" is loaded onto ""%2"" There is no more space.", getText(configFile >> "cfgVehicles" >> typeOf _x >> "displayName"), getText(configFile >> "cfgVehicles" >> typeOf _v >> "displayName")], true] call IL_Vehicle_Chat;
+                            };
+                            //player addScore IL_Load_Score;
+                            [Player, IL_Load_Score] call IL_Score;
+                        }
+                        else
+                        {
+                            if ((_box_num > _slot_num) && !_done) then
+                            {
+                                [_v, _NoBoxHint] call IL_Vehicle_Chat;
+                            };
+                        };
+                    };
 				};
 				if (_done) exitWith {};
 			} forEach (_obj_lst);
